@@ -43,15 +43,6 @@ const ChatHistory = () => {
         {chatHistory.map((chat) => (
           <ChatItem key={chat.dialogue_id} sent={chat.prompt} received={chat.completion} />
         ))}
-        {chatHistory.map((chat) => (
-          <ChatItem key={chat.dialogue_id} sent={chat.prompt} received={chat.completion} />
-        ))}
-        {chatHistory.map((chat) => (
-          <ChatItem key={chat.dialogue_id} sent={chat.prompt} received={chat.completion} />
-        ))}
-        {chatHistory.map((chat) => (
-          <ChatItem key={chat.dialogue_id} sent={chat.prompt} received={chat.completion} />
-        ))}
       </div>
 
       <button

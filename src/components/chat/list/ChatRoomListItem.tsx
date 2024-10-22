@@ -5,7 +5,7 @@ import { chatModelAtom } from '../../../stores/chatModel';
 
 type Props = {
   chatId: string;
-  title: string;
+  title?: string;
   model: {
     chat_model_id: string;
     chat_model_name: string;
@@ -17,6 +17,10 @@ const ChatRoomListItem = ({ chatId, title, model }: Props) => {
   const setChatModel = useSetAtom(chatModelAtom);
 
   const isSelected = useMemo(() => currentChatId === chatId, [chatId, currentChatId]);
+
+  if (!title) {
+    return null;
+  }
 
   return (
     <div

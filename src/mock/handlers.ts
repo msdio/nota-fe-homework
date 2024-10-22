@@ -3,6 +3,7 @@
 import { delay, http, HttpResponse } from 'msw';
 import { v4 as uuidv4 } from 'uuid';
 import { CHAT_MODELS, CHATS } from './data';
+import { ChatType } from '../entities/chat';
 
 let chatData = CHATS;
 const chatModels = CHAT_MODELS;
@@ -23,7 +24,7 @@ export const handlers = [
   }),
 
   // 채팅 생성
-  http.post<any, { chat_model_id: string }, any>('/chats', async ({ request }) => {
+  http.post<any, { chat_model_id: string }, { data: ChatType[] }>('/chats', async ({ request }) => {
     const { chat_model_id } = await request.json();
 
     chatData.push({
@@ -51,36 +52,38 @@ export const handlers = [
   }),
 
   // 단일 채팅에 대화 추가
-  http.post<{ chatId: string }, { prompt: string }, any, '/chats/:chatId/dialogues'>(
-    '/chats/:chatId/dialogues',
-    async ({ params, request }) => {
-      await delay(2000);
-      const { chatId } = params;
-      const { prompt } = await request.json();
+  http.post<
+    { chatId: string },
+    { prompt: string },
+    { data: ChatType[] },
+    '/chats/:chatId/dialogues'
+  >('/chats/:chatId/dialogues', async ({ params, request }) => {
+    await delay(2000);
+    const { chatId } = params;
+    const { prompt } = await request.json();
 
-      const data: any = chatData.find((chat) => chat.chat_id === chatId) || [];
-      const response = {
-        ...data,
-        dialogues: data.dialogues.concat({
-          dialogue_id: uuidv4(),
-          prompt,
-          completion: 'Mock 응답',
-        }),
-      };
+    const data: any = chatData.find((chat) => chat.chat_id === chatId) || [];
+    const response = {
+      ...data,
+      dialogues: data.dialogues.concat({
+        dialogue_id: uuidv4(),
+        prompt,
+        completion: 'Mock 응답',
+      }),
+    };
 
-      chatData = chatData.map((item) => {
-        if (item.chat_id === chatId) {
-          return response;
-        }
+    chatData = chatData.map((item) => {
+      if (item.chat_id === chatId) {
+        return response;
+      }
 
-        return item;
-      });
+      return item;
+    });
 
-      return HttpResponse.json({
-        data: response,
-      });
-    },
-  ),
+    return HttpResponse.json({
+      data: response,
+    });
+  }),
 
   // 모델 목록
   http.get('/chat_model', async () => {
