@@ -23,20 +23,16 @@ const ChatHistory = () => {
 
   if (!chatId) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
+      <div className="flex items-center justify-center w-full h-full">
         Select Chat room to start chatting!
       </div>
     );
   }
 
   return (
-    <div className="py-4 pl-1 h-full w-full flex flex-col gap-8">
+    <div className="flex flex-col w-full h-full gap-8 py-4 pl-1">
       {chatHistory.map((chat) => (
-        <ChatItem
-          key={chat.dialogue_id}
-          chat={chat.completion}
-          sender={chat.dialogue_id ? 'AI' : 'me'}
-        />
+        <ChatItem key={chat.dialogue_id} sent={chat.prompt} received={chat.completion} />
       ))}
     </div>
   );
