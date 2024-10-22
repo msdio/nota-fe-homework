@@ -5,12 +5,13 @@ import SelectChatModel from './SelectChatModel';
 
 const ChatContents = () => {
   return (
-    <div className="w-full h-full p-4 relative flex flex-col justify-between">
+    <div className="relative flex flex-col justify-between w-full pb-0">
       <div className="w-full h-full">
-        <div className="w-full flex items-center justify-between">
+        <div className="absolute flex items-center justify-between w-full pr-4 top-4">
           <SelectChatModel />
           <NewChat />
         </div>
+
         <ChatHistory />
       </div>
 

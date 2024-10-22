@@ -30,7 +30,13 @@ const ChatHistory = () => {
   }
 
   return (
-    <div className="flex flex-col w-full h-full gap-8 py-4 pl-1">
+    <div className="flex flex-col gap-8 overflow-y-auto mt-14 max-h-[calc(100%-56px-80px)] py-4">
+      {chatHistory.map((chat) => (
+        <ChatItem key={chat.dialogue_id} sent={chat.prompt} received={chat.completion} />
+      ))}
+      {chatHistory.map((chat) => (
+        <ChatItem key={chat.dialogue_id} sent={chat.prompt} received={chat.completion} />
+      ))}
       {chatHistory.map((chat) => (
         <ChatItem key={chat.dialogue_id} sent={chat.prompt} received={chat.completion} />
       ))}

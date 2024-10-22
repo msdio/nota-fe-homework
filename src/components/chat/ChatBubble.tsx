@@ -3,7 +3,9 @@ type Props = {
 };
 
 const ChatBubble = ({ chat }: Props) => {
-  return <div className="border border-gray-200 rounded-xl py-2 px-4">{chat}</div>;
+  return (
+    <div className="px-4 py-2 border border-gray-200 rounded-xl max-w-80 text-pretty">{chat}</div>
+  );
 };
 
 export default ChatBubble;
