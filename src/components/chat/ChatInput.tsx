@@ -1,11 +1,19 @@
-import { useState } from 'react';
+import { useAtomValue } from 'jotai';
+import { useEffect, useState } from 'react';
+import { currentChatIdAtom } from '../../stores/currentChatId';
 
 const ChatInput = () => {
+  const currentChatId = useAtomValue(currentChatIdAtom);
+
   const [input, setInput] = useState('');
+
+  useEffect(() => {
+    setInput('');
+  }, [currentChatId]);
 
   return (
     <form
-      className="absolute bottom-0 flex justify-between w-full gap-4 pr-4"
+      className="absolute bottom-0 flex justify-between w-full gap-4"
       onSubmit={(e) => {
         e.preventDefault();
         console.log('submit');
