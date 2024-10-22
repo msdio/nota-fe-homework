@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ChatRoomListItem from './ChatRoomListItem';
-import { ChatType } from '../../entities/chat';
-import { typedGet } from '../../apis';
+import { ChatType } from '../../../entities/chat';
+import { typedGet } from '../../../apis';
 
 const ChatRoomList = () => {
   const [chatRooms, setChatRooms] = useState<ChatType[]>([]);

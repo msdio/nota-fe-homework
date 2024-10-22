@@ -1,7 +1,7 @@
-import ChatHistory from './ChatHistory';
-import ChatInput from './ChatInput';
-import NewChat from './NewChat';
-import SelectChatModel from './SelectChatModel';
+import ChatInput from "../ChatInput";
+import NewChat from "../NewChat";
+import SelectChatModel from "../SelectChatModel";
+import ChatHistory from "./ChatHistory";
 
 const ChatContents = () => {
   return (

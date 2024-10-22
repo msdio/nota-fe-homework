@@ -1,11 +1,11 @@
 import { useAtomValue } from 'jotai';
-import { currentChatIdAtom } from '../../stores/currentChatId';
+import { currentChatIdAtom } from '../../../stores/currentChatId';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { typedGet } from '../../apis';
-import { ChatType, DialogueType } from '../../entities/chat';
+import { typedGet } from '../../../apis';
+import { ChatType, DialogueType } from '../../../entities/chat';
+import DownChevron from '../../../icons/DownChevron';
+import useScroll from '../../../hooks/useScroll';
 import ChatItem from './ChatItem';
-import DownChevron from '../../icons/DownChevron';
-import useScroll from '../../hooks/useScroll';
 
 const ChatHistory = () => {
   const containerRef = useRef<HTMLDivElement>(null);

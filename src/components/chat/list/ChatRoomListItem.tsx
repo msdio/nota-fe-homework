@@ -1,7 +1,7 @@
 import { useAtom, useSetAtom } from 'jotai';
-import { currentChatIdAtom } from '../../stores/currentChatId';
+import { currentChatIdAtom } from '../../../stores/currentChatId';
 import { useMemo } from 'react';
-import { chatModelAtom } from '../../stores/chatModel';
+import { chatModelAtom } from '../../../stores/chatModel';
 
 type Props = {
   chatId: string;

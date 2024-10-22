@@ -1,9 +1,9 @@
-import ChatContents from '../components/chat/ChatContents';
-import ChatRoomList from '../components/chat/ChatRoomList';
+import ChatContents from '../components/chat/content/ChatContents';
+import ChatRoomList from '../components/chat/list/ChatRoomList';
 
 const Chat = () => {
   return (
-    <div className="flex gap-4 w-full h-screen p-4 bg-white">
+    <div className="flex w-full h-screen gap-4 p-4 bg-white">
       <ChatRoomList />
 
       <ChatContents />

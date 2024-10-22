@@ -1,4 +1,4 @@
-import ChatBubble from './ChatBubble';
+import ChatBubble from "./ChatBubble";
 
 type Props = {
   sent: string;
