@@ -19,12 +19,21 @@ const SelectChatModel = () => {
     getChatModelList();
   }, []);
 
+  const onSelectModel = (modelId: string) => {
+    const selected = models.find((model) => model.chat_model_id === modelId);
+
+    if (selected) {
+      setSelectedModel(selected);
+    }
+  };
+
   return (
     <select
       name="chat-model"
       id="chat-model"
-      defaultValue={selectedModel.chat_model_id}
       className="w-fit"
+      value={selectedModel.chat_model_id}
+      onChange={(e) => onSelectModel(e.currentTarget.value)}
     >
       {models.map((model) => (
         <option key={model.chat_model_id} value={model.chat_model_id}>
