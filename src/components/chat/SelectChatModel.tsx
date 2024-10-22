@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { chatModelAtom } from '../../stores/chatModel';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ChatModelType } from '../../entities/chat';
 import { typedGet } from '../../apis';
 
@@ -9,15 +9,15 @@ const SelectChatModel = () => {
 
   const [models, setModels] = useState<ChatModelType[]>([]);
 
-  const getChatModelList = async () => {
+  const getChatModelList = useCallback(async () => {
     const response = await typedGet<{ data: ChatModelType[] }>('/chat_model');
     setModels(response.data);
     setSelectedModel(response.data[0]);
-  };
+  }, [setModels, setSelectedModel]);
 
   useEffect(() => {
     getChatModelList();
-  }, []);
+  }, [getChatModelList]);
 
   const onSelectModel = (modelId: string) => {
     const selected = models.find((model) => model.chat_model_id === modelId);
@@ -35,6 +35,7 @@ const SelectChatModel = () => {
       value={selectedModel.chat_model_id}
       onChange={(e) => onSelectModel(e.currentTarget.value)}
     >
+      <option value="">모델을 선택해 주세요.</option>
       {models.map((model) => (
         <option key={model.chat_model_id} value={model.chat_model_id}>
           {model.chat_model_name}
