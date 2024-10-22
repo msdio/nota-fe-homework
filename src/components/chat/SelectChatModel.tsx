@@ -31,7 +31,7 @@ const SelectChatModel = () => {
     <select
       name="chat-model"
       id="chat-model"
-      className="w-fit"
+      className="p-2 bg-gray-200 rounded-md outline-none w-fit"
       value={selectedModel.chat_model_id}
       onChange={(e) => onSelectModel(e.currentTarget.value)}
     >
