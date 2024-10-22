@@ -1,5 +1,6 @@
-import { useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { currentChatIdAtom } from '../../stores/currentChatId';
+import { useMemo } from 'react';
 
 type Props = {
   chatId: string;
@@ -7,16 +8,20 @@ type Props = {
 };
 
 const ChatRoomListItem = ({ chatId, title }: Props) => {
-  const setCurrentChatId = useSetAtom(currentChatIdAtom);
+  const [currentChatId, setCurrentChatId] = useAtom(currentChatIdAtom);
+
+  const isSelected = useMemo(() => currentChatId === chatId, [chatId, currentChatId]);
 
   return (
     <div
-      className="w-full p-4 hover:bg-[#00cee6] hover:text-white"
+      className={
+        isSelected ? 'w-full p-4 bg-[#00cee6] text-white' : 'w-full p-4 hover:bg-[#c9f3f8]'
+      }
       role="button"
       title={title}
       onClick={() => setCurrentChatId(chatId)}
     >
-      <p className="text-ellipsis overflow-hidden whitespace-nowrap">{title}</p>
+      <p className="overflow-hidden text-ellipsis whitespace-nowrap">{title}</p>
     </div>
   );
 };
