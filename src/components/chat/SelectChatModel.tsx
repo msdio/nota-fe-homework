@@ -3,9 +3,11 @@ import { chatModelAtom } from '../../stores/chatModel';
 import { useCallback, useEffect, useState } from 'react';
 import { ChatModelType } from '../../entities/chat';
 import { typedGet } from '../../apis';
+import { currentChatIdAtom } from '../../stores/currentChatId';
 
 const SelectChatModel = () => {
   const [selectedModel, setSelectedModel] = useAtom(chatModelAtom);
+  const [currentChat, setCurrentChat] = useAtom(currentChatIdAtom);
 
   const [models, setModels] = useState<ChatModelType[]>([]);
 
@@ -33,7 +35,13 @@ const SelectChatModel = () => {
       id="chat-model"
       className="p-2 bg-gray-200 rounded-md outline-none w-fit"
       value={selectedModel.chat_model_id}
-      onChange={(e) => onSelectModel(e.currentTarget.value)}
+      onChange={(e) => {
+        onSelectModel(e.currentTarget.value)
+
+        if(currentChat) {
+          setCurrentChat('')
+        }
+      }}
     >
       <option value="">모델을 선택해 주세요.</option>
       {models.map((model) => (
