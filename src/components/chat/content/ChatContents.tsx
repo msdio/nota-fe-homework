@@ -5,7 +5,7 @@ import ChatInput from '../ChatInput';
 import NewChat from '../NewChat';
 import SelectChatModel from '../SelectChatModel';
 import ChatHistory from './ChatHistory';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { typedGet } from '../../../apis';
 import { ChatType } from '../../../entities/chat';
 
@@ -13,9 +13,15 @@ const ChatContents = () => {
   const chatId = useAtomValue(currentChatIdAtom);
   const [chatHistory, setChatHistory] = useAtom(chatHistoryAtom);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const getChatHistory = useCallback(async () => {
+    setIsLoading(true);
+
     const response = await typedGet<{ data: ChatType }>(`/chats/${chatId}`);
     setChatHistory(response.data.dialogues);
+
+    setIsLoading(false);
   }, [chatId, setChatHistory]);
 
   useEffect(() => {
@@ -32,7 +38,7 @@ const ChatContents = () => {
           <NewChat />
         </div>
 
-        <ChatHistory chatHistory={chatHistory} />
+        <ChatHistory chatHistory={chatHistory} isLoading={isLoading} />
       </div>
 
       <ChatInput />

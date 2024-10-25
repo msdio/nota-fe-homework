@@ -8,8 +8,9 @@ import ChatItem from './ChatItem';
 
 type Props = {
   chatHistory: DialogueType[];
+  isLoading: boolean;
 };
-const ChatHistory = ({ chatHistory }: Props) => {
+const ChatHistory = ({ chatHistory, isLoading }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const chatId = useAtomValue(currentChatIdAtom);
@@ -22,6 +23,10 @@ const ChatHistory = ({ chatHistory }: Props) => {
         Select chat room to start chatting.
       </div>
     );
+  }
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center w-full h-full">Loading...</div>;
   }
 
   return (
