@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { currentChatIdAtom } from '../../stores/currentChatId';
 import { chatModelAtom } from '../../stores/chatModel';
 import { chatRoomListAtom } from '../../stores/chatRoomList';
@@ -18,9 +18,15 @@ const ChatInput = () => {
 
   const [input, setInput] = useState('');
 
-  useEffect(() => {
-    setInput('');
+  const isNewChat = useMemo(() => {
+    return currentChatId.includes('-');
   }, [currentChatId]);
+
+  useEffect(() => {
+    if (isNewChat) {
+      setInput('');
+    }
+  }, [currentChatId, isNewChat]);
 
   const sendMessage = async () => {
     if (input && currentChatId) {
