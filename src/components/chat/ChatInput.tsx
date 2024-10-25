@@ -23,11 +23,7 @@ const ChatInput = () => {
   }, [currentChatId]);
 
   const sendMessage = async () => {
-    if (!currentChatId) {
-      return;
-    }
-
-    if (input) {
+    if (input && currentChatId) {
       setChatRoomList((prev) => [
         ...prev.filter((chat) => chat.chat_id !== currentChatId),
         {
