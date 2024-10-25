@@ -1,7 +1,7 @@
 import { RefObject, useState } from 'react';
 
 const useScroll = (ref: RefObject<HTMLElement>) => {
-  const [isAtBottom, setIsAtBottom] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(true);
 
   ref.current?.addEventListener('scroll', () => {
     const { scrollHeight, scrollTop, clientHeight } = ref.current!;
