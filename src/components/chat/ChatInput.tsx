@@ -23,6 +23,10 @@ const ChatInput = () => {
   }, [currentChatId]);
 
   const sendMessage = async () => {
+    if (!currentChatId) {
+      return;
+    }
+
     if (input) {
       setChatRoomList((prev) => [
         ...prev.filter((chat) => chat.chat_id !== currentChatId),
@@ -88,13 +92,13 @@ const ChatInput = () => {
         }}
         rows={3}
         className="w-full p-2 text-sm border border-gray-400 rounded-md resize-none"
-        disabled={!chatModel.chat_model_id}
+        disabled={!chatModel.chat_model_id || !currentChatId}
       />
 
       <button
         type="submit"
         className="px-4 py-2 border border-gray-300 whitespace-nowrap h-fit disabled:bg-gray-400"
-        disabled={!chatModel.chat_model_id}
+        disabled={!chatModel.chat_model_id || !currentChatId}
       >
         제출
       </button>

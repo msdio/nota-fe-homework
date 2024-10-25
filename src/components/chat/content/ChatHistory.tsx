@@ -19,7 +19,7 @@ const ChatHistory = ({ chatHistory }: Props) => {
   if (!chatId) {
     return (
       <div className="flex items-center justify-center w-full h-full">
-        Select Chat room to start chatting!
+        Select chat room to start chatting.
       </div>
     );
   }
