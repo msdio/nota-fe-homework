@@ -10,6 +10,7 @@ const ChatRoomList = () => {
 
   const getChatRooms = useCallback(async () => {
     const response = await typedGet<{ data: ChatType[] }>('/chats');
+
     setChatRooms(response.data);
   }, [setChatRooms]);
 
@@ -23,7 +24,7 @@ const ChatRoomList = () => {
         <ChatRoomListItem
           key={chatRoom.chat_id}
           chatId={chatRoom.chat_id}
-          title={chatRoom.dialogues[0].prompt}
+          title={chatRoom.dialogues[0]?.prompt}
           model={{
             chat_model_id: chatRoom.chat_model_id,
             chat_model_name: chatRoom.chat_model_name,

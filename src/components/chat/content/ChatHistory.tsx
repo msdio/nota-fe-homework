@@ -1,30 +1,20 @@
 import { useAtomValue } from 'jotai';
 import { currentChatIdAtom } from '../../../stores/currentChatId';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { typedGet } from '../../../apis';
-import { ChatType, DialogueType } from '../../../entities/chat';
+import { useRef } from 'react';
+import { DialogueType } from '../../../entities/chat';
 import DownChevron from '../../../icons/DownChevron';
 import useScroll from '../../../hooks/useScroll';
 import ChatItem from './ChatItem';
 
-const ChatHistory = () => {
+type Props = {
+  chatHistory: DialogueType[];
+};
+const ChatHistory = ({ chatHistory }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const chatId = useAtomValue(currentChatIdAtom);
+
   const { isAtBottom, scrollToBottom } = useScroll(containerRef);
-
-  const [chatHistory, setChatHistory] = useState<DialogueType[]>([]);
-
-  const getChatHistory = useCallback(async () => {
-    const response = await typedGet<{ data: ChatType }>(`/chats/${chatId}`);
-    setChatHistory(response.data.dialogues);
-  }, [chatId]);
-
-  useEffect(() => {
-    if (chatId) {
-      getChatHistory();
-    }
-  }, [chatId, getChatHistory]);
 
   if (!chatId) {
     return (

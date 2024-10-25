@@ -1,15 +1,16 @@
 import { useAtom } from 'jotai';
 import { chatModelAtom } from '../../stores/chatModel';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { ChatModelType } from '../../entities/chat';
 import { typedGet } from '../../apis';
 import { currentChatIdAtom } from '../../stores/currentChatId';
+import { chatModelList } from '../../stores/chatModelList';
 
 const SelectChatModel = () => {
   const [selectedModel, setSelectedModel] = useAtom(chatModelAtom);
   const [currentChat, setCurrentChat] = useAtom(currentChatIdAtom);
 
-  const [models, setModels] = useState<ChatModelType[]>([]);
+  const [models, setModels] = useAtom(chatModelList);
 
   const getChatModelList = useCallback(async () => {
     const response = await typedGet<{ data: ChatModelType[] }>('/chat_model');
@@ -36,10 +37,10 @@ const SelectChatModel = () => {
       className="p-2 bg-gray-200 rounded-md outline-none w-fit"
       value={selectedModel.chat_model_id}
       onChange={(e) => {
-        onSelectModel(e.currentTarget.value)
+        onSelectModel(e.currentTarget.value);
 
-        if(currentChat) {
-          setCurrentChat('')
+        if (currentChat) {
+          setCurrentChat('');
         }
       }}
     >

@@ -4,9 +4,13 @@ import { currentChatIdAtom } from '../../stores/currentChatId';
 import { chatModelAtom } from '../../stores/chatModel';
 import { chatRoomListAtom } from '../../stores/chatRoomList';
 import { typedPost } from '../../apis';
-import { ChatType } from '../../entities/chat';
+import { ChatType, DialogueType } from '../../entities/chat';
+import { chatHistoryAtom } from '../../stores/chatHistory';
 
-const ChatInput = () => {
+type Props = {
+  setChatHistory: (value: DialogueType[]) => void;
+};
+const ChatInput = ({ setChatHistory }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const currentChatId = useAtomValue(currentChatIdAtom);
@@ -21,10 +25,46 @@ const ChatInput = () => {
 
   const sendMessage = async () => {
     if (input) {
-      const response = await typedPost<{ data: ChatType[] }>(`/chats/${currentChatId}/dialogues`, {
-        prompt: input,
-      });
-      setChatRoomList(response.data);
+      setChatRoomList((prev) => [
+        ...prev.filter((chat) => chat.chat_id !== currentChatId),
+        {
+          chat_id: currentChatId,
+          chat_model_id: chatModel.chat_model_id,
+          chat_model_name: chatModel.chat_model_name,
+          dialogues: [
+            {
+              dialogue_id: new Date().toString(),
+              prompt: input,
+              completion: '',
+            },
+          ],
+        },
+      ]);
+
+      setChatHistory((prev: DialogueType[]) => [
+        ...prev,
+        {
+          dialogue_id: new Date().toString(),
+          prompt: input,
+          completion: '',
+        },
+      ]);
+
+      try {
+        const response = await typedPost<{ data: ChatType }>(`/chats/${currentChatId}/dialogues`, {
+          prompt: input,
+        });
+
+        setChatRoomList((prev) => [
+          ...prev.filter((chat) => chat.chat_id !== currentChatId),
+          response.data,
+        ]);
+        setChatHistory((prev: DialogueType[]) => prev.filter((chat) => chat.dialogue_id));
+
+        setInput('');
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
