@@ -21,7 +21,7 @@ const ChatHistory = ({ chatHistory, isLoading }: Props) => {
     if (chatHistory.length) {
       scrollToBottom();
     }
-  }, [chatHistory, scrollToBottom]);
+  }, [chatHistory]);
 
   if (!chatId) {
     return (
