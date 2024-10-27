@@ -1,4 +1,4 @@
-import ChatBubble from "./ChatBubble";
+import ChatBubble from './ChatBubble';
 
 type Props = {
   sent: string;
@@ -26,7 +26,9 @@ const SentChat = ({ chat }: SentChatProps) => {
   return (
     <div className="flex items-center gap-4">
       <ChatBubble chat={chat} />
-      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100">Me</div>
+      <div className="flex items-center justify-center w-10 h-10 rounded-full select-none bg-slate-100">
+        Me
+      </div>
     </div>
   );
 };
@@ -38,7 +40,9 @@ type ReceivedChatProps = {
 const ReceivedChat = ({ chat }: ReceivedChatProps) => {
   return (
     <div className="flex items-center gap-4">
-      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100">N</div>
+      <div className="flex items-center justify-center w-10 h-10 rounded-full select-none bg-slate-100">
+        N
+      </div>
       <ChatBubble chat={chat} />
     </div>
   );

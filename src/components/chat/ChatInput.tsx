@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { currentChatIdAtom } from '../../stores/currentChatId';
 import { chatModelAtom } from '../../stores/chatModel';
 import { chatRoomListAtom } from '../../stores/chatRoomList';
@@ -28,32 +28,41 @@ const ChatInput = () => {
     }
   }, [currentChatId, isNewChat]);
 
+  const createNewChatRoom = () => {
+    setChatRoomList((prev) => [
+      ...prev.filter((chat) => chat.chat_id !== currentChatId),
+      {
+        chat_id: currentChatId,
+        chat_model_id: chatModel.chat_model_id,
+        chat_model_name: chatModel.chat_model_name,
+        dialogues: [
+          {
+            dialogue_id: new Date().toString(),
+            prompt: input,
+            completion: '',
+          },
+        ],
+      },
+    ]);
+  };
+
+  const createNewChat = () => {
+    setChatHistory((prev: DialogueType[]) => [
+      ...prev,
+      {
+        dialogue_id: new Date().toString(),
+        prompt: input,
+        completion: '',
+      },
+    ]);
+  };
+
   const sendMessage = async () => {
     if (input && currentChatId) {
-      setChatRoomList((prev) => [
-        ...prev.filter((chat) => chat.chat_id !== currentChatId),
-        {
-          chat_id: currentChatId,
-          chat_model_id: chatModel.chat_model_id,
-          chat_model_name: chatModel.chat_model_name,
-          dialogues: [
-            {
-              dialogue_id: new Date().toString(),
-              prompt: input,
-              completion: '',
-            },
-          ],
-        },
-      ]);
+      createNewChatRoom();
+      createNewChat();
 
-      setChatHistory((prev: DialogueType[]) => [
-        ...prev,
-        {
-          dialogue_id: new Date().toString(),
-          prompt: input,
-          completion: '',
-        },
-      ]);
+      setInput('');
 
       try {
         const response = await typedPost<{ data: ChatType }>(`/chats/${currentChatId}/dialogues`, {
@@ -65,11 +74,15 @@ const ChatInput = () => {
           response.data,
         ]);
         setChatHistory(response.data.dialogues);
-
-        setInput('');
       } catch (error) {
         console.error(error);
       }
+    }
+  };
+
+  const onKeyDown = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if ((e.metaKey && e.key === 'Enter') || (e.ctrlKey && e.key === 'Enter')) {
+      await sendMessage();
     }
   };
 
@@ -86,12 +99,9 @@ const ChatInput = () => {
         name="chat-input"
         id="chat-input"
         value={input}
+        placeholder="ctrl + Enter 또는 cmd + Enter를 눌러 제출할 수 있어요."
         onChange={(e) => setInput(e.currentTarget.value)}
-        onKeyDown={(e) => {
-          if (e.metaKey && e.key === 'Enter') {
-            formRef.current?.submit();
-          }
-        }}
+        onKeyDown={onKeyDown}
         rows={3}
         className="w-full p-2 text-sm border border-gray-400 rounded-md resize-none"
         disabled={!chatModel.chat_model_id || !currentChatId}
