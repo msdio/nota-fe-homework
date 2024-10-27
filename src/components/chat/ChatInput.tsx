@@ -30,7 +30,6 @@ const ChatInput = () => {
 
   const createNewChatRoom = () => {
     setChatRoomList((prev) => [
-      ...prev.filter((chat) => chat.chat_id !== currentChatId),
       {
         chat_id: currentChatId,
         chat_model_id: chatModel.chat_model_id,
@@ -43,6 +42,7 @@ const ChatInput = () => {
           },
         ],
       },
+      ...prev.filter((chat) => chat.chat_id !== currentChatId),
     ]);
   };
 
@@ -70,8 +70,8 @@ const ChatInput = () => {
         });
 
         setChatRoomList((prev) => [
-          ...prev.filter((chat) => chat.chat_id !== currentChatId),
           response.data,
+          ...prev.filter((chat) => chat.chat_id !== currentChatId),
         ]);
         setChatHistory(response.data.dialogues);
       } catch (error) {

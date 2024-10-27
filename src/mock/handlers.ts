@@ -30,7 +30,7 @@ export const handlers = [
     chatData.push({
       chat_model_id: chat_model_id,
       chat_model_name:
-        chatModels.find(({ chat_model_id: modelId }) => chat_model_id !== modelId)
+        chatModels.find(({ chat_model_id: modelId }) => chat_model_id === modelId)
           ?.chat_model_name || '',
       chat_id: uuidv4(),
       dialogues: [],
