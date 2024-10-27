@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai';
 import { currentChatIdAtom } from '../../../stores/currentChatId';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { DialogueType } from '../../../entities/chat';
 import DownChevron from '../../../icons/DownChevron';
 import useScroll from '../../../hooks/useScroll';
@@ -17,10 +17,16 @@ const ChatHistory = ({ chatHistory, isLoading }: Props) => {
 
   const { isAtBottom, scrollToBottom } = useScroll(containerRef);
 
+  useEffect(() => {
+    if (chatHistory.length) {
+      scrollToBottom();
+    }
+  }, [chatHistory, scrollToBottom]);
+
   if (!chatId) {
     return (
       <div className="flex items-center justify-center w-full h-full">
-        Select chat room to start chatting.
+        Select chat room or click new button to start chatting.
       </div>
     );
   }
