@@ -19,7 +19,7 @@ const ChatRoomList = () => {
   }, [getChatRooms]);
 
   return (
-    <div className="w-40 h-full overflow-hidden rounded-md shadow-md bg-gray-50 shrink-0">
+    <div className="w-48 h-full overflow-hidden rounded-md shadow-md bg-gray-50 shrink-0">
       {chatRooms.map((chatRoom) => (
         <ChatRoomListItem
           key={chatRoom.chat_id}

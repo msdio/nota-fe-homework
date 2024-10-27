@@ -34,7 +34,8 @@ const ChatRoomListItem = ({ chatId, title, model }: Props) => {
         setChatModel(model);
       }}
     >
-      <p className="overflow-hidden text-ellipsis whitespace-nowrap">{title}</p>
+      <p className="overflow-hidden text-base text-ellipsis whitespace-nowrap">{title}</p>
+      <p className="mt-2 text-xs text-right whitespace-nowrap">{model.chat_model_name}</p>
     </div>
   );
 };
